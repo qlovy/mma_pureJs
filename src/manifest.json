@@ -1,0 +1,12 @@
+{
+  "name": "MMA in pure JS",
+  "icons": [
+    {
+      "src": "img/java-script.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "display": "standalone",
+  "start_url": "/src/index.html"
+}
