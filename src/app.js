@@ -1,6 +1,7 @@
 // menu page
 const main = document.getElementById('main-content');
-main.innerHTML = `<div class="text-center py-2">
+function displayMenu(){
+    main.innerHTML = `<div class="text-center py-2">
       <h1>MMA in pure JS</h1>
     </div>
 
@@ -21,7 +22,8 @@ main.innerHTML = `<div class="text-center py-2">
         </div>
       </div>
     </footer>`
-
+}
+displayMenu();
 // workout list buttons
 const nbBox = 6;
 const container = document.getElementById("list-workout");
@@ -32,3 +34,4 @@ for (let i = 1; i < nbBox; i++) {
     button.onclick = () => {console.log(i)}
     container.appendChild(button);
 }
+
