@@ -1,5 +1,22 @@
-// menu page
 const main = document.getElementById('main-content');
+let workouts = null;
+
+async function getJSON(filename) {
+    try{
+        let response = await fetch(filename);
+        return await response.json();
+    }catch (err){
+        alert(err);
+    }
+}
+
+async function init() {
+    workouts = await getJSON('workout.json');
+    if (workouts) {
+        displayMenu();
+    }
+}
+
 function displayMenu(){
     main.innerHTML = `<div class="text-center py-2">
       <h1>MMA in pure JS</h1>
@@ -22,16 +39,20 @@ function displayMenu(){
         </div>
       </div>
     </footer>`
-}
-displayMenu();
-// workout list buttons
-const nbBox = 6;
-const container = document.getElementById("list-workout");
-for (let i = 1; i < nbBox; i++) {
-    const button = document.createElement('button');
-    button.classList.add('btn','btn-primary', 'my-3');
-    button.innerText = 'Workout ' + i;
-    button.onclick = () => {console.log(i)}
-    container.appendChild(button);
+    addButton();
 }
 
+// workout list buttons
+function addButton(){
+    const nbWorkouts = workouts.length;
+    const container = document.getElementById("list-workout");
+    for (let i = 1; i < nbWorkouts; i++) {
+        const button = document.createElement('button');
+        button.classList.add('btn','btn-primary', 'my-3');
+        button.innerText = 'Workout ' + i;
+        button.onclick = () => {console.log(i)}
+        container.appendChild(button);
+    }
+}
+
+init();
