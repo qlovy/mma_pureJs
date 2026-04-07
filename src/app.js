@@ -1,23 +1,12 @@
-const main = document.getElementById('main-content');
-let workouts = null;
-
-async function getJSON(filename) {
-    try{
-        let response = await fetch(filename);
-        return await response.json();
-    }catch (err){
-        alert(err);
-    }
+function init() {
+    fetch('./workout.json')
+        .then(response => response.json()
+            .then(json => displayMenu(json)))
+        .catch(error => alert(error));
 }
 
-async function init() {
-    workouts = await getJSON('workout.json');
-    if (workouts) {
-        displayMenu();
-    }
-}
-
-function displayMenu(){
+function displayMenu(workouts){
+    const main = document.getElementById('main-content');
     main.innerHTML = `<div class="text-center py-2">
       <h1>MMA in pure JS</h1>
     </div>
@@ -39,11 +28,11 @@ function displayMenu(){
         </div>
       </div>
     </footer>`
-    addButton();
+    addButton(workouts);
 }
 
 // workout list buttons
-function addButton(){
+function addButton(workouts){
     const nbWorkouts = workouts.length;
     const container = document.getElementById("list-workout");
     for (let i = 0; i < nbWorkouts; i++) {
