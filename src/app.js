@@ -11,7 +11,7 @@ function displayMenu(workouts){
       <h1>MMA in pure JS</h1>
     </div>
 
-    <div id="list-workout" class="d-grid gap-2 py-2 w-75 mx-auto">
+    <div id="list-workouts" class="d-grid gap-2 py-2 w-75 mx-auto">
     </div>
 
     <footer class="container text-center fixed-bottom py-4">
@@ -28,20 +28,34 @@ function displayMenu(workouts){
         </div>
       </div>
     </footer>`
-    addButton(workouts);
+    addButton(workouts, main);
 }
 
 // workout list buttons
-function addButton(workouts){
+function addButton(workouts, main){
     const nbWorkouts = workouts.length;
-    const container = document.getElementById("list-workout");
+    const container = document.getElementById("list-workouts");
     for (let i = 0; i < nbWorkouts; i++) {
         const button = document.createElement('button');
         button.classList.add('btn','btn-primary', 'my-3');
-        button.innerText = workouts[i].nom;
-        button.onclick = () => {console.log(i)}
+        let workout = workouts[i];
+        button.innerText = `${workout.nom} ${workout.jour !== "" ? `(${workout.jour})` : ""}`;
+        button.onclick = () => {displayWorkout(workout, main);};
         container.appendChild(button);
     }
+}
+
+function displayWorkout(workout, main){
+    main.innerHTML = `<button type="button" class="btn-close mt-3 ms-3" aria-label="Close" onclick="init()"></button>
+    <h1 id="workout-name" class="my-3 text-center">Poussée</h1>
+    <div class="card card-body mx-3 mt-5 text-center">
+        <h2 id="workout-title" class="mb-5">Pompes</h2>
+        <h5 id="workout-series" class="mb-2">Séries: 3</h5>
+        <h5 id="workout-repetitions" class="mb-2">Répetitions: 15 secondes</h5>
+        <h5 id="workout-recuperation" class="mb-5">Récuperation: 1 seconde</h5>
+        <p id="workout-advice" class="mb-5">Gainage</p>
+        <button class="btn btn-primary" onclick="console.log('next pls')">Suivant</button>
+    </div>`
 }
 
 init();
