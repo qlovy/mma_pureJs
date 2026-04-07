@@ -5,7 +5,7 @@ function init() {
         .catch(error => alert(error));
 }
 
-function displayMenu(workouts){
+function displayMenu(workouts) {
     const main = document.getElementById('main-content');
     main.innerHTML = `<div class="text-center py-2">
       <h1>MMA in pure JS</h1>
@@ -31,20 +31,22 @@ function displayMenu(workouts){
     addButton(workouts, main);
 }
 
-function addButton(workouts, main){
+function addButton(workouts, main) {
     const nbWorkouts = workouts.length;
     const container = document.getElementById("list-workouts");
     for (let i = 0; i < nbWorkouts; i++) {
         const button = document.createElement('button');
-        button.classList.add('btn','btn-primary', 'my-3');
+        button.classList.add('btn', 'btn-primary', 'my-3');
         let workout = workouts[i];
         button.innerText = `${workout.nom} ${workout.jour !== "" ? `(${workout.jour})` : ""}`;
-        button.onclick = () => {displayWorkout(workout, main);};
+        button.onclick = () => {
+            displayWorkout(workout, main);
+        };
         container.appendChild(button);
     }
 }
 
-function displayWorkout(workout, main){
+function displayWorkout(workout, main) {
     main.innerHTML = `<button type="button" class="btn-close mt-3 ms-3" aria-label="Close" onclick="init()"></button>
     <h1 id="workout-name" class="my-3 text-center">Poussée</h1>
     <div class="card card-body mx-3 mt-5 text-center">
@@ -58,7 +60,7 @@ function displayWorkout(workout, main){
     updateWorkout(workout);
 }
 
-function updateWorkout(workout, index=0){
+function updateWorkout(workout, index = 0) {
     const name = document.querySelector('#workout-name');
     const title = document.querySelector('#workout-title');
     const serie = document.querySelector('#workout-serie');
@@ -72,7 +74,7 @@ function updateWorkout(workout, index=0){
     let value = exercise[index][1];
     serie.innerText = `Série${value > 1 ? "s" : ""}: ${value}`;
     value = exercise[index][2]
-    repetition.innerText = `Répetition${(typeof(value) == "string" ? value.substring(0, value.length-1): value) > 1 ? "s": ""}: ${typeof(value) == "string" ? `${value.substring(0, value.length - 1)} seconde${value.substring(0, value.length - 1) > 1 ? "s" : ""}` : value}`;
+    repetition.innerText = `Répetition${(typeof (value) == "string" ? value.substring(0, value.length - 1) : value) > 1 ? "s" : ""}: ${typeof (value) == "string" ? `${value.substring(0, value.length - 1)} seconde${value.substring(0, value.length - 1) > 1 ? "s" : ""}` : value}`;
     value = exercise[index][3]
     recuperation.innerText = `Récuperation: ${value} seconde${value > 1 ? "s" : ""}`;
     advice.innerText = exercise[index][4];
