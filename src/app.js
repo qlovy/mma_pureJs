@@ -46,10 +46,10 @@ function displayMenu(){
 function addButton(){
     const nbWorkouts = workouts.length;
     const container = document.getElementById("list-workout");
-    for (let i = 1; i < nbWorkouts; i++) {
+    for (let i = 0; i < nbWorkouts; i++) {
         const button = document.createElement('button');
         button.classList.add('btn','btn-primary', 'my-3');
-        button.innerText = 'Workout ' + i;
+        button.innerText = workouts[i].nom;
         button.onclick = () => {console.log(i)}
         container.appendChild(button);
     }
