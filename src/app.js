@@ -31,7 +31,6 @@ function displayMenu(workouts){
     addButton(workouts, main);
 }
 
-// workout list buttons
 function addButton(workouts, main){
     const nbWorkouts = workouts.length;
     const container = document.getElementById("list-workouts");
@@ -50,12 +49,33 @@ function displayWorkout(workout, main){
     <h1 id="workout-name" class="my-3 text-center">Poussée</h1>
     <div class="card card-body mx-3 mt-5 text-center">
         <h2 id="workout-title" class="mb-5">Pompes</h2>
-        <h5 id="workout-series" class="mb-2">Séries: 3</h5>
-        <h5 id="workout-repetitions" class="mb-2">Répetitions: 15 secondes</h5>
+        <h5 id="workout-serie" class="mb-2">Séries: 3</h5>
+        <h5 id="workout-repetition" class="mb-2">Répetitions: 15 secondes</h5>
         <h5 id="workout-recuperation" class="mb-5">Récuperation: 1 seconde</h5>
-        <p id="workout-advice" class="mb-5">Gainage</p>
-        <button class="btn btn-primary" onclick="console.log('next pls')">Suivant</button>
+        <p id="workout-advice" class="mb-5 fs-4">Gainage</p>
+        <button class="btn btn-primary fs-5" onclick="console.log('next pls')">Suivant</button>
     </div>`
+    updateWorkout(workout);
+}
+
+function updateWorkout(workout, index=0){
+    const name = document.querySelector('#workout-name');
+    const title = document.querySelector('#workout-title');
+    const serie = document.querySelector('#workout-serie');
+    const repetition = document.querySelector('#workout-repetition');
+    const recuperation = document.querySelector('#workout-recuperation');
+    const advice = document.querySelector('#workout-advice');
+
+    name.innerText = workout.nom;
+    let exercise = workout.exercices;
+    title.innerText = exercise[index][0];
+    let value = exercise[index][1];
+    serie.innerText = `Série${value > 1 ? "s" : ""}: ${value}`;
+    value = exercise[index][2]
+    repetition.innerText = `Répetition${(typeof(value) == "string" ? value.substring(0, value.length-1): value) > 1 ? "s": ""}: ${typeof(value) == "string" ? `${value.substring(0, value.length - 1)} seconde${value.substring(0, value.length - 1) > 1 ? "s" : ""}` : value}`;
+    value = exercise[index][3]
+    recuperation.innerText = `Récuperation: ${value} seconde${value > 1 ? "s" : ""}`;
+    advice.innerText = exercise[index][4];
 }
 
 init();
