@@ -63,25 +63,31 @@ function displayWorkout(workout, main) {
         repetition: document.querySelector('#workout-repetition'),
         recuperation: document.querySelector('#workout-recuperation'),
         advice: document.querySelector('#workout-advice'),
+        button: document.querySelector('#next-btn'),
         indexExercise: 0,
         indexSerie: 0,
     };
-    document.getElementById('next-btn').onclick = () => {
+    workoutProperties.button.onclick = () => {
         workoutProperties.indexSerie++;
-        updateWorkout(workout, main, workoutProperties);
+        updateWorkout(workout, workoutProperties);
     }
-    updateWorkout(workout, main, workoutProperties);
+
+    updateWorkout(workout, workoutProperties);
 }
 
-function updateWorkout(workout, main, workoutProperties) {
+function updateWorkout(workout, workoutProperties) {
     if (workoutProperties.indexSerie === workout.exercices[workoutProperties.indexExercise][1]) {
         workoutProperties.indexExercise++;
         workoutProperties.indexSerie = 0;
     }
 
     if (workoutProperties.indexExercise >= workout.exercices.length){
-        main.innerHTML = `<button type="button" class="btn-close mt-3 ms-3" aria-label="Close" onclick="init()"></button>
-        <h1 class="my-5 text-center">Bravo !</h1>`
+        workoutProperties.exercise.innerText = "Bravo !";
+        workoutProperties.serie.innerText = "";
+        workoutProperties.repetition.innerText = "";
+        workoutProperties.recuperation.innerText = "";
+        workoutProperties.advice.innerText = "";
+        workoutProperties.button.disabled = true;
     }else{
         let exercise = workout.exercices;
         let index = workoutProperties.indexExercise;
