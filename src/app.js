@@ -48,36 +48,39 @@ function addButton(workouts, main) {
 
 function displayWorkout(workout, main) {
     main.innerHTML = `<button type="button" class="btn-close mt-3 ms-3" aria-label="Close" onclick="init()"></button>
-    <h1 id="workout-name" class="my-3 text-center">Poussée</h1>
+    <h1 id="workout-name" class="my-3 text-center">${workout.nom}</h1>
     <div class="card card-body mx-3 mt-5 text-center">
-        <h2 id="workout-title" class="mb-5">Pompes</h2>
+        <h2 id="workout-exercise" class="mb-5">Pompes</h2>
         <h5 id="workout-serie" class="mb-2">Séries: 3</h5>
         <h5 id="workout-repetition" class="mb-2">Répetitions: 15 secondes</h5>
         <h5 id="workout-recuperation" class="mb-5">Récuperation: 1 seconde</h5>
         <p id="workout-advice" class="mb-5 fs-4">Gainage</p>
-        <button class="btn btn-primary fs-5" onclick="console.log('next pls')">Suivant</button>
+        <button class="btn btn-primary fs-5" id="next-btn">Suivant</button>
     </div>`
-    updateWorkout(workout);
+    const workoutProperties = {
+        exercise: document.querySelector('#workout-exercise'),
+        serie: document.querySelector('#workout-serie'),
+        repetition: document.querySelector('#workout-repetition'),
+        recuperation: document.querySelector('#workout-recuperation'),
+        advice: document.querySelector('#workout-advice'),
+        indexExercise: 0,
+        indexSerie: 0,
+    };
+    document.getElementById('next-btn').onclick = () => {workoutProperties.indexSerie++;}
+    updateWorkout(workout, workoutProperties);
 }
 
-function updateWorkout(workout, index = 0) {
-    const name = document.querySelector('#workout-name');
-    const title = document.querySelector('#workout-title');
-    const serie = document.querySelector('#workout-serie');
-    const repetition = document.querySelector('#workout-repetition');
-    const recuperation = document.querySelector('#workout-recuperation');
-    const advice = document.querySelector('#workout-advice');
-
-    name.innerText = workout.nom;
+function updateWorkout(workout, workoutProperties) {
     let exercise = workout.exercices;
-    title.innerText = exercise[index][0];
+    let index = workoutProperties.indexExercise;
+    workoutProperties.exercise.innerText = exercise[index][0];
     let value = exercise[index][1];
-    serie.innerText = `Série${value > 1 ? "s" : ""}: ${value}`;
+    workoutProperties.serie.innerText = `Série${value > 1 ? "s" : ""}: ${value}`;
     value = exercise[index][2]
-    repetition.innerText = `Répetition${(typeof (value) == "string" ? value.substring(0, value.length - 1) : value) > 1 ? "s" : ""}: ${typeof (value) == "string" ? `${value.substring(0, value.length - 1)} seconde${value.substring(0, value.length - 1) > 1 ? "s" : ""}` : value}`;
+    workoutProperties.repetition.innerText = `Répetition${(typeof (value) == "string" ? value.substring(0, value.length - 1) : value) > 1 ? "s" : ""}: ${typeof (value) == "string" ? `${value.substring(0, value.length - 1)} seconde${value.substring(0, value.length - 1) > 1 ? "s" : ""}` : value}`;
     value = exercise[index][3]
-    recuperation.innerText = `Récuperation: ${value} seconde${value > 1 ? "s" : ""}`;
-    advice.innerText = exercise[index][4];
+    workoutProperties.recuperation.innerText = `Récuperation: ${value} seconde${value > 1 ? "s" : ""}`;
+    workoutProperties.advice.innerText = exercise[index][4];
 }
 
 init();
