@@ -55,7 +55,7 @@ function displayWorkout(workout, main) {
         <h5 id="workout-repetition" class="mb-2">Répetitions: 15 secondes</h5>
         <h5 id="workout-recuperation" class="mb-5">Récuperation: 1 seconde</h5>
         <p id="workout-advice" class="mb-5 fs-4">Gainage</p>
-        <button class="btn btn-primary fs-5" id="next-btn">Suivant</button>
+        <button class="btn btn-primary fs-5" id="workout-next">Suivant</button>
     </div>`
     const workoutProperties = {
         area: document.querySelector('#workout-area'),
@@ -64,7 +64,7 @@ function displayWorkout(workout, main) {
         repetition: document.querySelector('#workout-repetition'),
         recuperation: document.querySelector('#workout-recuperation'),
         advice: document.querySelector('#workout-advice'),
-        button: document.querySelector('#next-btn'),
+        button: document.querySelector('#workout-next'),
         indexExercise: 0,
         indexSerie: 0,
     };
