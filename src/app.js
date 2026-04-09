@@ -66,21 +66,34 @@ function displayWorkout(workout, main) {
         indexExercise: 0,
         indexSerie: 0,
     };
-    document.getElementById('next-btn').onclick = () => {workoutProperties.indexSerie++;}
-    updateWorkout(workout, workoutProperties);
+    document.getElementById('next-btn').onclick = () => {
+        workoutProperties.indexSerie++;
+        updateWorkout(workout, main, workoutProperties);
+    }
+    updateWorkout(workout, main, workoutProperties);
 }
 
-function updateWorkout(workout, workoutProperties) {
-    let exercise = workout.exercices;
-    let index = workoutProperties.indexExercise;
-    workoutProperties.exercise.innerText = exercise[index][0];
-    let value = exercise[index][1];
-    workoutProperties.serie.innerText = `Série${value > 1 ? "s" : ""}: ${value}`;
-    value = exercise[index][2]
-    workoutProperties.repetition.innerText = `Répetition${(typeof (value) == "string" ? value.substring(0, value.length - 1) : value) > 1 ? "s" : ""}: ${typeof (value) == "string" ? `${value.substring(0, value.length - 1)} seconde${value.substring(0, value.length - 1) > 1 ? "s" : ""}` : value}`;
-    value = exercise[index][3]
-    workoutProperties.recuperation.innerText = `Récuperation: ${value} seconde${value > 1 ? "s" : ""}`;
-    workoutProperties.advice.innerText = exercise[index][4];
+function updateWorkout(workout, main, workoutProperties) {
+    if (workoutProperties.indexSerie === workout.exercices[workoutProperties.indexExercise][1]) {
+        workoutProperties.indexExercise++;
+        workoutProperties.indexSerie = 0;
+    }
+
+    if (workoutProperties.indexExercise >= workout.exercices.length){
+        main.innerHTML = `<button type="button" class="btn-close mt-3 ms-3" aria-label="Close" onclick="init()"></button>
+        <h1 class="my-5 text-center">Bravo !</h1>`
+    }else{
+        let exercise = workout.exercices;
+        let index = workoutProperties.indexExercise;
+        workoutProperties.exercise.innerText = exercise[index][0];
+        let value = exercise[index][1];
+        workoutProperties.serie.innerText = `Série${value > 1 ? "s" : ""}: ${value}`;
+        value = exercise[index][2]
+        workoutProperties.repetition.innerText = `Répetition${(typeof (value) == "string" ? value.substring(0, value.length - 1) : value) > 1 ? "s" : ""}: ${typeof (value) == "string" ? `${value.substring(0, value.length - 1)} seconde${value.substring(0, value.length - 1) > 1 ? "s" : ""}` : value}`;
+        value = exercise[index][3]
+        workoutProperties.recuperation.innerText = `Récuperation: ${value} seconde${value > 1 ? "s" : ""}`;
+        workoutProperties.advice.innerText = exercise[index][4];
+    }
 }
 
 init();
