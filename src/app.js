@@ -49,7 +49,7 @@ function addButton(workouts, main) {
 function displayWorkout(workout, main) {
     main.innerHTML = `<button type="button" class="btn-close mt-3 ms-3" aria-label="Close" onclick="init()"></button>
     <h1 id="workout-name" class="my-3 text-center">${workout.nom}</h1>
-    <div class="card card-body mx-3 mt-5 text-center">
+    <div class="card card-body mx-3 mt-5 text-center" id="workout-area">
         <h2 id="workout-exercise" class="mb-5">Pompes</h2>
         <h5 id="workout-serie" class="mb-2">Séries: 3</h5>
         <h5 id="workout-repetition" class="mb-2">Répetitions: 15 secondes</h5>
@@ -58,6 +58,7 @@ function displayWorkout(workout, main) {
         <button class="btn btn-primary fs-5" id="next-btn">Suivant</button>
     </div>`
     const workoutProperties = {
+        area: document.querySelector('#workout-area'),
         exercise: document.querySelector('#workout-exercise'),
         serie: document.querySelector('#workout-serie'),
         repetition: document.querySelector('#workout-repetition'),
@@ -82,12 +83,7 @@ function updateWorkout(workout, workoutProperties) {
     }
 
     if (workoutProperties.indexExercise >= workout.exercices.length){
-        workoutProperties.exercise.innerText = "Bravo !";
-        workoutProperties.serie.innerText = "";
-        workoutProperties.repetition.innerText = "";
-        workoutProperties.recuperation.innerText = "";
-        workoutProperties.advice.innerText = "";
-        workoutProperties.button.disabled = true;
+        workoutProperties.area.innerHTML = `<h1 class="my-3 text-center">Bravo !</h1>`;
     }else{
         let exercise = workout.exercices;
         let index = workoutProperties.indexExercise;
