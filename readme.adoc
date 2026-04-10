@@ -4,6 +4,11 @@
 
 Do the same thing as MMA but in pure JS without Vue.js
 
+=== TODOs
+- add circuit
+- add sound at the end of the timer
+- fix issue once PWA is installed (not working for now)
+
 == Sources
 
 https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Making_PWAs_installable[Making PWAs installable]
