@@ -69,7 +69,7 @@ function displaySettings(secondary){
         <h2 class="py-1">Importation</h2>
         <div class="mb-3">
           <label for="formFile" class="form-label">Importe le fichier <strong>.json</strong></label>
-          <input class="form-control" type="file" id="formFile">
+          <input class="form-control" type="file" id="formFile" accept=".json" placeholder="myProgram.json" onchange="importUserWorkout(this)">
         </div>
     </div>
     <div class="container mb-5">
@@ -77,6 +77,22 @@ function displaySettings(secondary){
         <p>Pour revenir à la version de base (programme par défaut).</p>
         <button class="btn btn-primary" onclick="">Reset</button>
     </div>`;
+
+}
+
+function importUserWorkout(input){
+    let file = input.files[0];
+    if (file){
+        const reader = new FileReader();
+        let data;
+        reader.onload = () => {
+            data = reader.result;
+        };
+        reader.onerror = () => {
+            alert("Error: Loading file failed !")
+        };
+        reader.readAsText(file);
+    }
 }
 
 function displayWorkout(workout, main) {
