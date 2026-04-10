@@ -1,5 +1,6 @@
 const DB_NAME = "file_storage";
 const STORE_NAME = "user_file";
+const audio = new Audio("data/boxingBell.mp3")
 
 function init() {
     getUserWorkoutFromDB()
@@ -256,6 +257,7 @@ function initTimer(workout, workoutProperties, index){
     let timer = setInterval(() => {
         let delta = new Date().getTime() - start;
         if(delta >= end){
+            audio.play();
             if (typeof(value) === 'string'){
                 workoutProperties.beginBtn.hidden = true;
                 workoutProperties.beginBtn.disabled = false;
