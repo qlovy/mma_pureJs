@@ -56,7 +56,7 @@ function addButton(workouts, main) {
 }
 
 function displaySettings(secondary){
-    // TODO: import JSON (user-one), download model + tutoriel, get back to default program
+    // TODO: import JSON (user-one), get back to default program
     secondary.innerHTML = `<h1 class="text-center py-2">Réglages</h1>
     <div class="container mb-5">
         <h2 class="py-1">Téléchargement</h2>
