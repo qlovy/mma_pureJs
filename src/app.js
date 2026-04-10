@@ -2,10 +2,18 @@ const DB_NAME = "file_storage";
 const STORE_NAME = "user_file";
 
 function init() {
-    fetch('./workout.json')
-        .then(response => response.json()
-            .then(json => displayMenu(json)))
-        .catch(error => alert(error));
+    getUserWorkoutFromDB()
+    .then(value => {
+        if(value){
+            displayMenu(value.workout);
+        }else{
+            fetch('./workout.json')
+            .then(response => response.json()
+                .then(json => displayMenu(json)))
+            .catch(error => alert(error));
+        }
+    })
+    .catch(error => alert(error));
 }
 
 function createDB(){
@@ -55,6 +63,24 @@ function removeFromDB(){
         }
     })
     .catch(error => alert(error));
+}
+
+function getUserWorkoutFromDB(){
+    return createDB().then(db =>{
+        return new Promise((resolve,reject)=>{
+            const transaction = db.transaction([STORE_NAME], "readonly");
+            const store = transaction.objectStore(STORE_NAME);
+            const request = store.get(0);
+            request.onerror = function(e) {
+                console.error(e.target.error);
+                reject(e.target.error);
+            }
+            request.onsuccess = function() {
+                const result = request.result;
+                resolve(result !== undefined ? result : false);
+            }
+        })
+    });
 }
 
 function displayMenu(workouts) {
