@@ -7,7 +7,7 @@ function init() {
         if(value){
             displayMenu(value.workout);
         }else{
-            fetch('./workout.json')
+            fetch("https://raw.githubusercontent.com/wiki/qlovy/mma/programme.json")
             .then(response => response.json()
                 .then(json => displayMenu(json)))
             .catch(error => alert(error));
