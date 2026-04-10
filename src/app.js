@@ -42,6 +42,7 @@ function addToDB(data){
         const request = store.put(data);
         request.onerror = function(e) {
             console.error(e.target.error);
+            alert("Import failed!");
         }
         request.onsuccess = function() {
             init();
