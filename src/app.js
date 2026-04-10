@@ -109,14 +109,13 @@ function displayMenu(workouts) {
     </footer>`
     addButton(workouts, main);
     const menuBtn = document.getElementById('menu-btn');
-    menuBtn.addEventListener('click', () => {
+    menuBtn.onclick = () => {
         displayMenu(workouts);
-    });
+    };
     const settingsBtn = document.getElementById('settings-btn');
-    const secondary = document.getElementById('secondary-content');
-    settingsBtn.addEventListener('click', () => {
-        displaySettings(secondary);
-    });
+    settingsBtn.onclick = () => {
+        displaySettings(document.getElementById('secondary-content'));
+    };
 }
 
 function addButton(workouts, main) {
