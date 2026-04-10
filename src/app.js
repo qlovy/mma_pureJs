@@ -96,6 +96,16 @@ function updateWorkout(workout, workoutProperties) {
     if (workoutProperties.indexExercise >= workout.exercices.length){
         workoutProperties.area.innerHTML = `<h1 class="my-3 text-center">Bravo !</h1>`;
     }else{
+        if(typeof(workout.exercices[workoutProperties.indexExercise][2]) === 'string'){
+            workoutProperties.beginBtn.hidden = false;
+            workoutProperties.beginBtn.disabled = false;
+            workoutProperties.nextBtn.disabled = true;
+        }else{
+            workoutProperties.beginBtn.hidden = true;
+            workoutProperties.beginBtn.disabled = true;
+            workoutProperties.nextBtn.disabled = false;
+        }
+
         let exercise = workout.exercices;
         let index = workoutProperties.indexExercise;
         workoutProperties.exercise.innerText = exercise[index][0];
@@ -107,6 +117,36 @@ function updateWorkout(workout, workoutProperties) {
         workoutProperties.recuperation.innerText = `Récuperation: ${value} seconde${value > 1 ? "s" : ""}`;
         workoutProperties.advice.innerText = exercise[index][4];
     }
+}
+
+function initTimer(workout, workoutProperties, index){
+    workoutProperties.nextBtn.disabled = true;
+    workoutProperties.beginBtn.disabled = true;
+    let start = new Date().getTime();
+    let value = workout.exercices[workoutProperties.indexExercise][index];
+    let end = (typeof(value) !== 'string' ? value: value.substring(0, value.length - 1))*1000;
+
+    let timer = setInterval(() => {
+        let delta = new Date().getTime() - start;
+        if(delta >= end){
+            if (typeof(value) === 'string'){
+                workoutProperties.beginBtn.hidden = true;
+                workoutProperties.beginBtn.disabled = false;
+                workoutProperties.nextBtn.disabled = false;
+            }else{
+                updateWorkout(workout, workoutProperties);
+            }
+            workoutProperties.progressBar.style.width = `0%`;
+            workoutProperties.progressBar.ariaValueNow = `0`;
+            workoutProperties.progressBar.innerText = ``;
+            clearInterval(timer);
+        }else{
+            let value = Math.round(delta/end * 100);
+            workoutProperties.progressBar.style.width = `${value}%`;
+            workoutProperties.progressBar.ariaValueNow = `${value}`;
+            workoutProperties.progressBar.innerText = `${Math.round(delta/1000)} s`;
+        }
+    }, 20);
 }
 
 init();
