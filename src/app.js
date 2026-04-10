@@ -55,6 +55,10 @@ function displayWorkout(workout, main) {
         <h5 id="workout-repetition" class="mb-2">Répetitions: 15 secondes</h5>
         <h5 id="workout-recuperation" class="mb-5">Récuperation: 1 seconde</h5>
         <p id="workout-advice" class="mb-5 fs-4">Gainage</p>
+        <button class="btn btn-primary fs-4" id="workout-begin">Démarrer</button>
+        <div class="progress mb-5 mt-2" style="height: 2em" id="workout-progress-div">
+          <div class="progress-bar" role="progressbar" style="width: 0%; height: 2em" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="workout-progress-bar"></div>
+        </div>
         <button class="btn btn-primary fs-5" id="workout-next">Suivant</button>
     </div>`
     const workoutProperties = {
@@ -64,14 +68,21 @@ function displayWorkout(workout, main) {
         repetition: document.querySelector('#workout-repetition'),
         recuperation: document.querySelector('#workout-recuperation'),
         advice: document.querySelector('#workout-advice'),
-        button: document.querySelector('#workout-next'),
+        beginBtn: document.querySelector('#workout-begin'),
+        progressDiv: document.querySelector('#workout-progress-div'),
+        progressBar: document.querySelector('#workout-progress-bar'),
+        nextBtn: document.querySelector('#workout-next'),
         indexExercise: 0,
         indexSerie: 0,
     };
-    workoutProperties.button.onclick = () => {
+    workoutProperties.nextBtn.onclick = () => {
         workoutProperties.indexSerie++;
-        updateWorkout(workout, workoutProperties);
-    }
+        initTimer(workout, workoutProperties, 3);
+    };
+
+    workoutProperties.beginBtn.onclick = () => {
+        initTimer(workout, workoutProperties, 2);
+    };
 
     updateWorkout(workout, workoutProperties);
 }
