@@ -37,6 +37,17 @@ function addToDB(data){
     });
 }
 
+function removeFromDB(){
+    createDB().then(db =>{
+        const transaction = db.transaction([STORE_NAME], "readwrite");
+        const store = transaction.objectStore(STORE_NAME);
+        const request = store.delete(0);
+        request.onerror = function(e) {
+            console.error(e.target.error);
+        }
+    });
+    init();
+}
 
 function displayMenu(workouts) {
     const main = document.getElementById('main-content');
@@ -89,7 +100,6 @@ function addButton(workouts, main) {
 }
 
 function displaySettings(secondary){
-    // TODO: get back to default program
     secondary.innerHTML = `<h1 class="text-center py-2">Réglages</h1>
     <div class="container mb-5">
         <h2 class="py-1">Téléchargement</h2>
@@ -108,7 +118,7 @@ function displaySettings(secondary){
     <div class="container mb-5">
         <h2 class="py-1">Réinitialiser</h2>
         <p>Pour revenir à la version de base (programme par défaut).</p>
-        <button class="btn btn-primary" onclick="">Reset</button>
+        <button class="btn btn-primary" onclick="removeFromDB()">Reset</button>
     </div>`;
 
 }
