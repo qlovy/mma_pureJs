@@ -1,9 +1,42 @@
+const DB_NAME = "file_storage";
+const STORE_NAME = "user_file";
+
 function init() {
     fetch('./workout.json')
         .then(response => response.json()
             .then(json => displayMenu(json)))
         .catch(error => alert(error));
 }
+
+function createDB(){
+    return new Promise((resolve,reject)=>{
+        const request = indexedDB.open(DB_NAME, 2);
+        request.onupgradeneeded = function(e) {
+          const db = e.target.result;
+          if(!db.objectStoreNames.contains(STORE_NAME)){
+              db.createObjectStore(STORE_NAME, { keyPath: "id"});
+          }
+        };
+        request.onerror = function(e) {
+            reject(e.target.error);
+        };
+        request.onsuccess = function(e) {
+            resolve(e.target.result);
+        };
+    });
+}
+
+function addToDB(data){
+    createDB().then(db =>{
+        const transaction = db.transaction([STORE_NAME], "readwrite");
+        const store = transaction.objectStore(STORE_NAME);
+        const request = store.add(data);
+        request.onerror = function(e) {
+            console.error(e.target.error);
+        }
+    });
+}
+
 
 function displayMenu(workouts) {
     const main = document.getElementById('main-content');
@@ -56,7 +89,7 @@ function addButton(workouts, main) {
 }
 
 function displaySettings(secondary){
-    // TODO: import JSON (user-one), get back to default program
+    // TODO: get back to default program
     secondary.innerHTML = `<h1 class="text-center py-2">Réglages</h1>
     <div class="container mb-5">
         <h2 class="py-1">Téléchargement</h2>
@@ -87,6 +120,7 @@ function importUserWorkout(input){
         let data;
         reader.onload = () => {
             data = reader.result;
+            addToDB({id: 0, workout: JSON.parse(data)});
         };
         reader.onerror = () => {
             alert("Error: Loading file failed !")
