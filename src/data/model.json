@@ -1,0 +1,20 @@
+[
+  {
+    "nom": "nom de l'exercice",
+    "jour": "jour de l'exercice",
+    "exercices": [
+      ["nom exercice 1", 1, "15s", 1, "Conseil pour l'exercice"],
+      ["nom exercice 2", 1, 5, 1, "Conseil pour l'exercice"]
+    ],
+    "type": ""
+  },
+  {
+    "nom": "nom de l'exercice",
+    "jour": "jour de l'exercice",
+    "exercices": [
+      ["nom exercice 1", 1, "15s", 1, "Conseil pour l'exercice"],
+      ["nom exercice 2", 1, 5, 1, "Conseil pour l'exercice"]
+    ],
+    "type": "circuit"
+  }
+]
