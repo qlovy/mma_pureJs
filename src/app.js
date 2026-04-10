@@ -27,14 +27,19 @@ function createDB(){
 }
 
 function addToDB(data){
-    createDB().then(db =>{
+    createDB()
+    .then(db =>{
         const transaction = db.transaction([STORE_NAME], "readwrite");
         const store = transaction.objectStore(STORE_NAME);
         const request = store.add(data);
         request.onerror = function(e) {
             console.error(e.target.error);
         }
-    });
+        request.onsuccess = function() {
+            init();
+        }
+    })
+    .catch(error => alert(error));
 }
 
 function removeFromDB(){
@@ -45,8 +50,11 @@ function removeFromDB(){
         request.onerror = function(e) {
             console.error(e.target.error);
         }
-    });
-    init();
+        request.onsuccess = function() {
+            init();
+        }
+    })
+    .catch(error => alert(error));
 }
 
 function displayMenu(workouts) {
