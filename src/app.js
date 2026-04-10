@@ -89,7 +89,7 @@ function displayMenu(workouts) {
     main.innerHTML = `
     <div id="secondary-content">
         <div class="text-center py-2">
-          <h1>MMA in pure JS</h1>
+          <h1>MMA</h1>
         </div>
         <div id="list-workouts" class="d-grid gap-2 py-2 w-75 mx-auto"></div>
     </div>
