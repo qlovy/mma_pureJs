@@ -39,7 +39,7 @@ function addToDB(data){
     .then(db =>{
         const transaction = db.transaction([STORE_NAME], "readwrite");
         const store = transaction.objectStore(STORE_NAME);
-        const request = store.add(data);
+        const request = store.put(data);
         request.onerror = function(e) {
             console.error(e.target.error);
         }
