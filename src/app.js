@@ -1,5 +1,5 @@
 function init() {
-    fetch('./workout.json')
+    fetch('./data/workout.json')
         .then(response => response.json()
             .then(json => displayMenu(json)))
         .catch(error => alert(error));
