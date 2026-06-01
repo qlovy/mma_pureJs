@@ -1,6 +1,7 @@
 const DB_NAME = "file_storage";
 const STORE_NAME = "user_file";
-const audio = new Audio("data/boxingBell.mp3")
+const audio = new Audio("data/boxingBell.mp3");
+let auto_next = true;
 
 function init() {
     getUserWorkoutFromDB()
@@ -151,11 +152,18 @@ function displaySettings(secondary){
         </div>
     </div>
     <div class="container mb-5">
+        <h2 class="py-1">Paramètres divers</h2>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="auto-next" onclick="auto_next = !auto_next">
+          <label class="form-check-label" for="auto-next">Suivant auto</label>
+        </div>
+    </div>
+    <div class="container mb-5">
         <h2 class="py-1">Réinitialiser</h2>
         <p>Pour revenir à la version de base (programme par défaut).</p>
         <button class="btn btn-primary" onclick="removeFromDB()">Reset</button>
     </div>`;
-
+    document.querySelector('#auto-next').checked = auto_next;
 }
 
 function importUserWorkout(input){
@@ -273,6 +281,10 @@ function initTimer(workout, workoutProperties, index){
                 workoutProperties.beginBtn.hidden = true;
                 workoutProperties.beginBtn.disabled = false;
                 workoutProperties.nextBtn.disabled = false;
+                if(auto_next){
+                    workoutProperties.indexSerie++;
+                    initTimer(workout, workoutProperties, 3);
+                }
             }else{
                 updateWorkout(workout, workoutProperties);
             }
