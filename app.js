@@ -177,17 +177,22 @@ function importUserWorkout(input){
 function displayWorkout(workout, main) {
     main.innerHTML = `<button type="button" class="btn-close mt-3 ms-3" aria-label="Close" onclick="init()"></button>
     <h1 id="workout-name" class="my-3 text-center">${workout.nom}</h1>
-    <div class="card card-body mx-3 mt-5 text-center" id="workout-area">
-        <h2 id="workout-exercise" class="mb-5">Pompes</h2>
-        <h5 id="workout-serie" class="mb-2">Séries: 3</h5>
-        <h5 id="workout-repetition" class="mb-2">Répetitions: 15 secondes</h5>
-        <h5 id="workout-recuperation" class="mb-5">Récuperation: 1 seconde</h5>
-        <p id="workout-advice" class="mb-5 fs-4">Gainage</p>
-        <button class="btn btn-primary fs-4" id="workout-begin">Démarrer</button>
-        <div class="progress mb-5 mt-2" style="height: 2em" id="workout-progress-div">
-          <div class="progress-bar" role="progressbar" style="width: 0%; height: 2em" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="workout-progress-bar"></div>
+    <div id="workout-area">
+        <div class="card card-body mx-3 mt-5 text-center">
+            <h2 id="workout-exercise" class="mb-5">Pompes</h2>
+            <h5 id="workout-serie" class="mb-2">Séries: 3</h5>
+            <h5 id="workout-repetition" class="mb-2">Répetitions: 15 secondes</h5>
+            <h5 id="workout-recuperation" class="mb-5">Récuperation: 1 seconde</h5>
+            <p id="workout-advice" class="mb-5 fs-4">Gainage</p>
+            <button class="btn btn-primary fs-4" id="workout-begin">Démarrer</button>
+            <div class="progress mb-5 mt-2" style="height: 2em" id="workout-progress-div">
+              <div class="progress-bar" role="progressbar" style="width: 0%; height: 2em" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="workout-progress-bar"></div>
+            </div>
+            <button class="btn btn-primary fs-5" id="workout-next">Suivant</button>
         </div>
-        <button class="btn btn-primary fs-5" id="workout-next">Suivant</button>
+        <div class="card mx-3 mt-5 text-center">
+            <button class="btn btn-secondary fs-5" id="workout-skip">Sauter</button>
+        </div>
     </div>`
     const workoutProperties = {
         area: document.querySelector('#workout-area'),
@@ -200,6 +205,7 @@ function displayWorkout(workout, main) {
         progressDiv: document.querySelector('#workout-progress-div'),
         progressBar: document.querySelector('#workout-progress-bar'),
         nextBtn: document.querySelector('#workout-next'),
+        skipBtn: document.querySelector('#workout-skip'),
         indexExercise: 0,
         indexSerie: 0,
     };
@@ -212,6 +218,11 @@ function displayWorkout(workout, main) {
         initTimer(workout, workoutProperties, 2);
     };
 
+    workoutProperties.skipBtn.onclick = () => {
+        workoutProperties.indexSerie++;
+        updateWorkout(workout, workoutProperties);
+    }
+
     updateWorkout(workout, workoutProperties);
 }
 
@@ -222,7 +233,7 @@ function updateWorkout(workout, workoutProperties) {
     }
 
     if (workoutProperties.indexExercise >= workout.exercices.length){
-        workoutProperties.area.innerHTML = `<h1 class="my-3 text-center">Bravo !</h1>`;
+        workoutProperties.area.innerHTML = `<div class="card card-body mx-6 mt-5"><h1 class="my-3 text-center">Bravo !</h1></div>`
     }else{
         if(typeof(workout.exercices[workoutProperties.indexExercise][2]) === 'string'){
             workoutProperties.beginBtn.hidden = false;
