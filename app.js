@@ -2,6 +2,7 @@ const DB_NAME = "file_storage";
 const STORE_NAME = "user_file";
 const audio = new Audio("data/boxingBell.mp3");
 let auto_next = true;
+let advance_mode = false;
 
 function init() {
     getUserWorkoutFromDB()
@@ -157,6 +158,10 @@ function displaySettings(secondary){
           <input class="form-check-input" type="checkbox" id="auto-next" onclick="auto_next = !auto_next">
           <label class="form-check-label" for="auto-next">Suivant auto</label>
         </div>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="advance-mode" onclick="advance_mode = !advance_mode">
+          <label class="form-check-label" for="advance-mode">Mode avancé</label>
+        </div>
     </div>
     <div class="container mb-5">
         <h2 class="py-1">Réinitialiser</h2>
@@ -164,6 +169,7 @@ function displaySettings(secondary){
         <button class="btn btn-primary" onclick="removeFromDB()">Reset</button>
     </div>`;
     document.querySelector('#auto-next').checked = auto_next;
+    document.querySelector('#advance-mode').checked = advance_mode;
 }
 
 function importUserWorkout(input){
@@ -198,7 +204,7 @@ function displayWorkout(workout, main) {
             </div>
             <button class="btn btn-primary fs-5" id="workout-next">Suivant</button>
         </div>
-        <div class="card mx-3 mt-5 text-center">
+        <div class="card mx-3 mt-5 text-center" id="div-skip">
             <button class="btn btn-secondary fs-5" id="workout-skip">Sauter</button>
         </div>
     </div>`
@@ -214,6 +220,7 @@ function displayWorkout(workout, main) {
         progressBar: document.querySelector('#workout-progress-bar'),
         nextBtn: document.querySelector('#workout-next'),
         skipBtn: document.querySelector('#workout-skip'),
+        skipDiv: document.querySelector('#div-skip'),
         indexExercise: 0,
         indexSerie: 0,
     };
@@ -230,6 +237,9 @@ function displayWorkout(workout, main) {
         workoutProperties.indexSerie++;
         updateWorkout(workout, workoutProperties);
     }
+
+    workoutProperties.skipDiv.hidden = !advance_mode;
+
 
     updateWorkout(workout, workoutProperties);
 }
