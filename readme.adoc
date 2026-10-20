@@ -10,7 +10,6 @@ Do the same thing as MMA but in pure JS without Vue.js
 - create a new branch for implement local storage
 
 === FIX
-- bell sound on iphone
 
 == Sources
 
