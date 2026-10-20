@@ -1,8 +1,40 @@
 const DB_NAME = "file_storage";
 const STORE_NAME = "user_file";
 const audio = new Audio("data/boxingBell.mp3");
+audio.preload = "auto";
+
 let auto_next = true;
 let advance_mode = false;
+let audioUnlocked = false;
+
+function unlockAudio() {
+    if (audioUnlocked) {
+        return;
+    }
+
+    audio.muted = true;
+    audio.play()
+        .then(() => {
+            audio.pause();
+            audio.currentTime = 0;
+            audio.muted = false;
+            audioUnlocked = true;
+        })
+        .catch(error => {
+            console.warn("Audio unlock failed:", error);
+            audio.muted = false;
+        });
+}
+
+function playAudio() {
+    audio.pause();
+    audio.currentTime = 0;
+    audio.muted = false;
+
+    audio.play().catch(error => {
+        console.warn("Bell sound failed:", error);
+    });
+}
 
 function init() {
     getUserWorkoutFromDB()
@@ -230,10 +262,12 @@ function displayWorkout(workout, main) {
     };
     workoutProperties.nextBtn.onclick = () => {
         workoutProperties.indexSerie++;
+        unlockAudio()
         initTimer(workout, workoutProperties, 3);
     };
 
     workoutProperties.beginBtn.onclick = () => {
+        unlockAudio();
         initTimer(workout, workoutProperties, 2);
     };
 
@@ -299,7 +333,7 @@ function initTimer(workout, workoutProperties, index){
     let timer = setInterval(() => {
         let delta = new Date().getTime() - start;
         if(delta >= end){
-            audio.play();
+            playAudio();
             if (typeof(value) === 'string'){
                 workoutProperties.beginBtn.hidden = true;
                 workoutProperties.beginBtn.disabled = false;
