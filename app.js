@@ -207,6 +207,9 @@ function displayWorkout(workout, main) {
         <div class="card mx-3 mt-5 text-center" id="div-skip">
             <button class="btn btn-secondary fs-5" id="workout-skip">Sauter</button>
         </div>
+        <div class="card mx-3 mt-5 text-center">
+            <p id="next-exercise">Preview field</p>
+        </div>
     </div>`
     const workoutProperties = {
         area: document.querySelector('#workout-area'),
@@ -221,6 +224,7 @@ function displayWorkout(workout, main) {
         nextBtn: document.querySelector('#workout-next'),
         skipBtn: document.querySelector('#workout-skip'),
         skipDiv: document.querySelector('#div-skip'),
+        nextExercise: document.querySelector('#next-exercise'),
         indexExercise: 0,
         indexSerie: 0,
     };
@@ -248,6 +252,15 @@ function updateWorkout(workout, workoutProperties) {
     if (workoutProperties.indexSerie === workout.exercices[workoutProperties.indexExercise][1]) {
         workoutProperties.indexExercise++;
         workoutProperties.indexSerie = 0;
+    }
+
+    // Preview field
+    if (workoutProperties.indexExercise < workout.exercices.length) {
+        workoutProperties.nextExercise.hidden = false;
+        let html = `Plus que <strong>${workout.exercices[workoutProperties.indexExercise][1] - workoutProperties.indexSerie}</strong> séries avant <strong>${workout.exercices[workoutProperties.indexExercise + 1][0]}</strong>`;
+        workoutProperties.nextExercise.innerHTML = html;
+    }else {
+        workoutProperties.nextExercise.hidden = true;
     }
 
     if (workoutProperties.indexExercise >= workout.exercices.length){
