@@ -7,6 +7,11 @@ Do the same thing as MMA but in pure JS without Vue.js
 === TODOs
 - add circuit
 
+- create a new branch for implement local storage
+
+=== FIX
+- bell sound on iphone
+
 == Sources
 
 https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Making_PWAs_installable[Making PWAs installable]
