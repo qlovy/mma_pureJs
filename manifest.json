@@ -8,5 +8,6 @@
     }
   ],
   "display": "standalone",
+  "short_name": "MMA",
   "start_url": "./index.html"
 }
