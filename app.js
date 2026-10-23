@@ -27,12 +27,77 @@ function unlockAudio() {
 }
 
 function playAudio() {
-    audio.pause();
-    audio.currentTime = 0;
-    audio.muted = false;
+    return new Promise((resolve) => {
+        audio.pause();
+        audio.currentTime = 0;
+        audio.muted = false;
 
-    audio.play().catch(error => {
-        console.warn("Bell sound failed:", error);
+        const cleanup = () => {
+            audio.pause();
+            audio.currentTime = 0;
+            audio.removeEventListener("ended", onEnded);
+            audio.removeEventListener("error", onError);
+            resolve();
+        }
+
+        const onEnded = () => {
+            cleanup();
+        }
+
+        const onError = () => {
+            console.warn("Bell sound failed:", error);
+            cleanup();
+        }
+
+        audio.addEventListener("ended", onEnded);
+        audio.addEventListener("error", onError);
+
+        audio.play().catch(error => {
+            console.warn("Bell sound failed:", error);
+            cleanup();
+        });
+    })
+}
+
+async function requestNotificationPermission() {
+    if (!("Notification" in window)) {
+        console.warn("Notifications are not supported.");
+        return false;
+    }
+
+    if (!("serviceWorker" in navigator)) {
+        console.warn("Service Workers are not supported.");
+        return false;
+    }
+
+    if (Notification.permission === "granted") {
+        return true;
+    }
+
+    if (Notification.permission === "denied") {
+        alert("Les notifications sont bloquées. Active-les dans les réglages iOS.");
+        return false;
+    }
+
+    const permission = await Notification.requestPermission();
+    return permission === "granted";
+}
+
+async function showTimerNotification() {
+    const allowed = await requestNotificationPermission();
+
+    if (!allowed) {
+        return;
+    }
+
+    const registration = await navigator.serviceWorker.ready;
+
+    await registration.showNotification("Timer terminé", {
+        body: "Passe à l'exercice suivant.",
+        icon: "img/logo.png",
+        badge: "img/logo.png",
+        tag: "timer-finished",
+        renotify: true
     });
 }
 
@@ -262,12 +327,14 @@ function displayWorkout(workout, main) {
     };
     workoutProperties.nextBtn.onclick = () => {
         workoutProperties.indexSerie++;
-        unlockAudio()
+        //unlockAudio();
+        requestNotificationPermission();
         initTimer(workout, workoutProperties, 3);
     };
 
     workoutProperties.beginBtn.onclick = () => {
-        unlockAudio();
+        //unlockAudio();
+        requestNotificationPermission();
         initTimer(workout, workoutProperties, 2);
     };
 
@@ -333,7 +400,8 @@ function initTimer(workout, workoutProperties, index){
     let timer = setInterval(() => {
         let delta = new Date().getTime() - start;
         if(delta >= end){
-            playAudio();
+            //playAudio();
+            showTimerNotification();
             if (typeof(value) === 'string'){
                 workoutProperties.beginBtn.hidden = true;
                 workoutProperties.beginBtn.disabled = false;
