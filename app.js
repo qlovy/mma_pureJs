@@ -5,59 +5,6 @@ audio.preload = "auto";
 
 let auto_next = true;
 let advance_mode = false;
-let audioUnlocked = false;
-
-function unlockAudio() {
-    if (audioUnlocked) {
-        return;
-    }
-
-    audio.muted = true;
-    audio.play()
-        .then(() => {
-            audio.pause();
-            audio.currentTime = 0;
-            audio.muted = false;
-            audioUnlocked = true;
-        })
-        .catch(error => {
-            console.warn("Audio unlock failed:", error);
-            audio.muted = false;
-        });
-}
-
-function playAudio() {
-    return new Promise((resolve) => {
-        audio.pause();
-        audio.currentTime = 0;
-        audio.muted = false;
-
-        const cleanup = () => {
-            audio.pause();
-            audio.currentTime = 0;
-            audio.removeEventListener("ended", onEnded);
-            audio.removeEventListener("error", onError);
-            resolve();
-        }
-
-        const onEnded = () => {
-            cleanup();
-        }
-
-        const onError = () => {
-            console.warn("Bell sound failed:", error);
-            cleanup();
-        }
-
-        audio.addEventListener("ended", onEnded);
-        audio.addEventListener("error", onError);
-
-        audio.play().catch(error => {
-            console.warn("Bell sound failed:", error);
-            cleanup();
-        });
-    })
-}
 
 async function requestNotificationPermission() {
     if (!("Notification" in window)) {
@@ -327,13 +274,11 @@ function displayWorkout(workout, main) {
     };
     workoutProperties.nextBtn.onclick = () => {
         workoutProperties.indexSerie++;
-        //unlockAudio();
         requestNotificationPermission();
         initTimer(workout, workoutProperties, 3);
     };
 
     workoutProperties.beginBtn.onclick = () => {
-        //unlockAudio();
         requestNotificationPermission();
         initTimer(workout, workoutProperties, 2);
     };
