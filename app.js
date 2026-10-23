@@ -1,7 +1,5 @@
 const DB_NAME = "file_storage";
 const STORE_NAME = "user_file";
-const audio = new Audio("data/boxingBell.mp3");
-audio.preload = "auto";
 
 let auto_next = true;
 let advance_mode = false;
