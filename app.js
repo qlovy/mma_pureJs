@@ -345,7 +345,6 @@ function initTimer(workout, workoutProperties, index){
     let timer = setInterval(() => {
         let delta = new Date().getTime() - start;
         if(delta >= end){
-            //playAudio();
             showTimerNotification();
             if (typeof(value) === 'string'){
                 workoutProperties.beginBtn.hidden = true;
